@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+
+  db:
+      image: mysql
+      volumes:
+        - db_data:/var/lib/mysql
+      restart: always
+      environment:
+        MYSQL_ROOT_PASSWORD: root
+
+  customer-service:
+    depends_on:
+      - db
+    build: ./customer-service
+    image: customer-service
+    restart: always
+    ports:
+      - "9090:8080"
+
+volumes:
+  db_data:
